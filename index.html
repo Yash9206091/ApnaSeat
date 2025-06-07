@@ -779,6 +779,18 @@
             font-weight: 500;
             position: relative;
             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .table:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+        }
+        
+        .table.selected {
+            background: #2ecc71;
+            box-shadow: 0 0 15px rgba(46, 204, 113, 0.6);
         }
         
         .table.premium::after {
@@ -803,21 +815,12 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            cursor: pointer;
             transition: all 0.2s ease;
-            font-size: 10px;
-            color: rgba(0, 0, 0, 0.7);
-            font-weight: 600;
             position: relative;
         }
         
         .seat.available {
             background-color: var(--available-seat);
-        }
-        
-        .seat.available:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 10px rgba(236, 240, 241, 0.6);
         }
         
         .seat.selected {
@@ -836,7 +839,6 @@
         
         .seat.window {
             background-color: var(--window-seat);
-            color: white;
         }
         
         .seating-info {
@@ -1172,12 +1174,12 @@
             </div>
             
             <div class="filter-bar" id="userFilterBar">
-                <button class="filter-btn active">All Hotels</button>
-                <button class="filter-btn">Hyderabad</button>
-                <button class="filter-btn">Bangalore</button>
-                <button class="filter-btn">Chennai</button>
-                <button class="filter-btn">Mumbai</button>
-                <button class="filter-btn">Delhi</button>
+                <button class="filter-btn active" data-filter="all">All Hotels</button>
+                <button class="filter-btn" data-filter="Hyderabad">Hyderabad</button>
+                <button class="filter-btn" data-filter="Bangalore">Bangalore</button>
+                <button class="filter-btn" data-filter="Chennai">Chennai</button>
+                <button class="filter-btn" data-filter="Mumbai">Mumbai</button>
+                <button class="filter-btn" data-filter="Delhi">Delhi</button>
             </div>
             
             <div class="hotel-grid" id="hotelGrid">
@@ -1232,11 +1234,11 @@
             </div>
             
             <div class="filter-bar" id="adminFilterBar">
-                <button class="filter-btn active">All Hotels</button>
-                <button class="filter-btn">Hyderabad</button>
-                <button class="filter-btn">Bangalore</button>
-                <button class="filter-btn">Chennai</button>
-                <button class="filter-btn">Mumbai</button>
+                <button class="filter-btn active" data-filter="all">All Hotels</button>
+                <button class="filter-btn" data-filter="Hyderabad">Hyderabad</button>
+                <button class="filter-btn" data-filter="Bangalore">Bangalore</button>
+                <button class="filter-btn" data-filter="Chennai">Chennai</button>
+                <button class="filter-btn" data-filter="Mumbai">Mumbai</button>
             </div>
             
             <div class="hotel-grid" id="adminHotelGrid">
@@ -1249,12 +1251,12 @@
     <div class="modal" id="bookingModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2><i class="fas fa-ticket-alt"></i> Book Seats</h2>
+                <h2><i class="fas fa-ticket-alt"></i> Book Tables</h2>
                 <button class="close-modal" id="closeModal">&times;</button>
             </div>
             
-            <!-- Seat Selection View -->
-            <div id="seatSelectionView">
+            <!-- Table Selection View -->
+            <div id="tableSelectionView">
                 <div class="booking-details">
                     <div class="detail-row">
                         <div class="detail-label">Hotel Name:</div>
@@ -1265,8 +1267,8 @@
                         <div class="detail-value" id="modalLocation">Hyderabad, India</div>
                     </div>
                     <div class="detail-row">
-                        <div class="detail-label">Available Seats:</div>
-                        <div class="detail-value" id="modalAvailableSeats">45</div>
+                        <div class="detail-label">Available Tables:</div>
+                        <div class="detail-value" id="modalAvailableTables">8</div>
                     </div>
                     <div class="detail-row">
                         <div class="detail-label">Total Capacity:</div>
@@ -1276,17 +1278,17 @@
                 
                 <div class="restaurant-view">
                     <div class="view-info">
-                        <div class="view-tag premium">Premium View</div>
-                        <div class="view-tag window">Window View</div>
+                        <div class="view-tag premium">Premium Table</div>
+                        <div class="view-tag window">Window Table</div>
                     </div>
                     <div class="view-info">
                         <i class="fas fa-info-circle"></i>
-                        <span>Window seats have premium views</span>
+                        <span>Click on tables to select/deselect</span>
                     </div>
                 </div>
                 
                 <div class="seating-section">
-                    <h3><i class="fas fa-chair"></i> Select Your Seats</h3>
+                    <h3><i class="fas fa-chair"></i> Select Your Tables</h3>
                     
                     <div class="restaurant-layout">
                         <div class="layout-container">
@@ -1295,77 +1297,77 @@
                                 <div class="entrance">ENTRANCE</div>
                                 
                                 <!-- Banquet Table -->
-                                <div class="banquet-table"></div>
+                                <div class="banquet-table" data-table-id="B">Banquet Table (18 seats)</div>
                                 <div class="banquet-seats">
-                                    <div class="seat available" data-seat-id="B1">B1</div>
-                                    <div class="seat available window" data-seat-id="B2">B2</div>
-                                    <div class="seat available" data-seat-id="B3">B3</div>
-                                    <div class="seat available" data-seat-id="B4">B4</div>
-                                    <div class="seat available" data-seat-id="B5">B5</div>
-                                    <div class="seat available" data-seat-id="B6">B6</div>
-                                    <div class="seat available window" data-seat-id="B7">B7</div>
-                                    <div class="seat available" data-seat-id="B8">B8</div>
-                                    <div class="seat available" data-seat-id="B9">B9</div>
+                                    <div class="seat available"></div>
+                                    <div class="seat available window"></div>
+                                    <div class="seat available"></div>
+                                    <div class="seat available"></div>
+                                    <div class="seat available"></div>
+                                    <div class="seat available"></div>
+                                    <div class="seat available window"></div>
+                                    <div class="seat available"></div>
+                                    <div class="seat available"></div>
                                 </div>
                                 <div class="banquet-seats bottom">
-                                    <div class="seat available" data-seat-id="B10">B10</div>
-                                    <div class="seat available" data-seat-id="B11">B11</div>
-                                    <div class="seat available" data-seat-id="B12">B12</div>
-                                    <div class="seat available window" data-seat-id="B13">B13</div>
-                                    <div class="seat available" data-seat-id="B14">B14</div>
-                                    <div class="seat available" data-seat-id="B15">B15</div>
-                                    <div class="seat available" data-seat-id="B16">B16</div>
-                                    <div class="seat available window" data-seat-id="B17">B17</div>
-                                    <div class="seat available" data-seat-id="B18">B18</div>
+                                    <div class="seat available"></div>
+                                    <div class="seat available"></div>
+                                    <div class="seat available"></div>
+                                    <div class="seat available window"></div>
+                                    <div class="seat available"></div>
+                                    <div class="seat available"></div>
+                                    <div class="seat available"></div>
+                                    <div class="seat available window"></div>
+                                    <div class="seat available"></div>
                                 </div>
                                 
                                 <!-- Rectangular Tables -->
                                 <div class="rectangular-tables">
                                     <div class="table-group">
-                                        <div class="table premium">Table 1</div>
+                                        <div class="table premium" data-table-id="T1">Table 1</div>
                                         <div class="table-seats">
-                                            <div class="seat available premium" data-seat-id="T1-1">1</div>
-                                            <div class="seat available premium" data-seat-id="T1-2">2</div>
+                                            <div class="seat available premium"></div>
+                                            <div class="seat available premium"></div>
                                         </div>
                                         <div class="table-seats">
-                                            <div class="seat available premium" data-seat-id="T1-3">3</div>
-                                            <div class="seat available premium" data-seat-id="T1-4">4</div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="table-group">
-                                        <div class="table">Table 2</div>
-                                        <div class="table-seats">
-                                            <div class="seat available" data-seat-id="T2-1">1</div>
-                                            <div class="seat booked" data-seat-id="T2-2">2</div>
-                                        </div>
-                                        <div class="table-seats">
-                                            <div class="seat available" data-seat-id="T2-3">3</div>
-                                            <div class="seat booked" data-seat-id="T2-4">4</div>
+                                            <div class="seat available premium"></div>
+                                            <div class="seat available premium"></div>
                                         </div>
                                     </div>
                                     
                                     <div class="table-group">
-                                        <div class="table premium">Table 3</div>
+                                        <div class="table" data-table-id="T2">Table 2</div>
                                         <div class="table-seats">
-                                            <div class="seat available window" data-seat-id="T3-1">1</div>
-                                            <div class="seat available window" data-seat-id="T3-2">2</div>
+                                            <div class="seat available"></div>
+                                            <div class="seat booked"></div>
                                         </div>
                                         <div class="table-seats">
-                                            <div class="seat available window" data-seat-id="T3-3">3</div>
-                                            <div class="seat available window" data-seat-id="T3-4">4</div>
+                                            <div class="seat available"></div>
+                                            <div class="seat booked"></div>
                                         </div>
                                     </div>
                                     
                                     <div class="table-group">
-                                        <div class="table">Table 4</div>
+                                        <div class="table premium" data-table-id="T3">Table 3</div>
                                         <div class="table-seats">
-                                            <div class="seat available" data-seat-id="T4-1">1</div>
-                                            <div class="seat available" data-seat-id="T4-2">2</div>
+                                            <div class="seat available window"></div>
+                                            <div class="seat available window"></div>
                                         </div>
                                         <div class="table-seats">
-                                            <div class="seat booked" data-seat-id="T4-3">3</div>
-                                            <div class="seat available" data-seat-id="T4-4">4</div>
+                                            <div class="seat available window"></div>
+                                            <div class="seat available window"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="table-group">
+                                        <div class="table" data-table-id="T4">Table 4</div>
+                                        <div class="table-seats">
+                                            <div class="seat available"></div>
+                                            <div class="seat available"></div>
+                                        </div>
+                                        <div class="table-seats">
+                                            <div class="seat booked"></div>
+                                            <div class="seat available"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -1397,9 +1399,9 @@
                     </div>
                     
                     <div class="selected-seats">
-                        <h4>Your Selected Seats:</h4>
-                        <div class="selected-list" id="selectedSeatsList">
-                            <!-- Selected seats will be shown here -->
+                        <h4>Your Selected Tables:</h4>
+                        <div class="selected-list" id="selectedTablesList">
+                            <!-- Selected tables will be shown here -->
                         </div>
                     </div>
                 </div>
@@ -1418,13 +1420,13 @@
                     <h3>Order Summary</h3>
                     
                     <div class="order-details">
-                        <div class="order-label">Selected Seats:</div>
-                        <div class="order-value" id="checkoutSeats">-</div>
-                        <div class="order-value" id="checkoutSeatsPrice">₹0</div>
+                        <div class="order-label">Selected Tables:</div>
+                        <div class="order-value" id="checkoutTables">-</div>
+                        <div class="order-value" id="checkoutTablesPrice">₹0</div>
                     </div>
                     
                     <div class="order-details">
-                        <div class="order-label">Seat Price (x<span id="seatCount">0</span>):</div>
+                        <div class="order-label">Table Price (x<span id="tableCount">0</span>):</div>
                         <div></div>
                         <div class="order-value" id="subtotal">₹0</div>
                     </div>
@@ -1468,11 +1470,11 @@
                 </div>
                 
                 <div class="terms">
-                    <p><strong>Important:</strong> The advance payment of ₹100 per seat will be deducted from your final bill upon dining. This booking is non-refundable and non-cancellable. Premium and window seats may have additional charges applied at the restaurant.</p>
+                    <p><strong>Important:</strong> The advance payment of ₹100 per seat will be deducted from your final bill upon dining. This booking is non-refundable and non-cancellable. Premium and window tables may have additional charges applied at the restaurant.</p>
                 </div>
                 
                 <button class="btn btn-confirm" id="payNow"><i class="fas fa-lock"></i> Pay Now</button>
-                <button class="btn" id="backToSeats" style="background: #7f8c8d; margin-top: 15px;"><i class="fas fa-arrow-left"></i> Back to Seat Selection</button>
+                <button class="btn" id="backToTables" style="background: #7f8c8d; margin-top: 15px;"><i class="fas fa-arrow-left"></i> Back to Table Selection</button>
             </div>
         </div>
     </div>
@@ -1488,7 +1490,7 @@
                 "name": "The Royal Orchid",
                 "location": "Hyderabad, India",
                 "total_seating_capacity": 80,
-                "available_seats": 45,
+                "available_tables": 8,
                 "image_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1d/30/57/59/altitude-rooftop-outside.jpg?w=1200&h=900&s=1",
                 "booking_url": "/book/1",
                 "rating": 4.7,
@@ -1504,7 +1506,7 @@
                 "name": "Lemon Tree Premier",
                 "location": "Bangalore, India",
                 "total_seating_capacity": 60,
-                "available_seats": 32,
+                "available_tables": 6,
                 "image_url": "https://www.lemontreehotels.com/uploads/hotelslider/29_58_2023_12_58_37Citrus-Cafe.jpg",
                 "booking_url": "/book/2",
                 "rating": 4.5,
@@ -1520,7 +1522,7 @@
                 "name": "The Westin",
                 "location": "Pune, India",
                 "total_seating_capacity": 100,
-                "available_seats": 80,
+                "available_tables": 10,
                 "image_url": "https://images.unsplash.com/photo-1541544741938-0af808871cc0",
                 "booking_url": "/book/3",
                 "rating": 4.8
@@ -1530,7 +1532,7 @@
                 "name": "Taj Krishna",
                 "location": "Hyderabad, India",
                 "total_seating_capacity": 120,
-                "available_seats": 50,
+                "available_tables": 12,
                 "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGVOz6IkNeFCXAKmb6Izzr1Fa6USmqrl2E_8cfX4XpuO17camZZlfGLkxuOPGims0bVj0&usqp=CAU",
                 "booking_url": "/book/4",
                 "rating": 4.9
@@ -1540,7 +1542,7 @@
                 "name": "Novotel",
                 "location": "Chennai, India",
                 "total_seating_capacity": 75,
-                "available_seats": 20,
+                "available_tables": 4,
                 "image_url": "https://b.zmtcdn.com/data/pictures/6/90946/6eaedce5ffb77ab8cfccd4d7a95865e1.jpg?fit=around|960:500&crop=960:500;*,*",
                 "booking_url": "/book/5",
                 "rating": 4.3
@@ -1550,7 +1552,7 @@
                 "name": "Radisson Blu",
                 "location": "Delhi, India",
                 "total_seating_capacity": 90,
-                "available_seats": 44,
+                "available_tables": 7,
                 "image_url": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38",
                 "booking_url": "/book/6",
                 "rating": 4.6
@@ -1560,7 +1562,7 @@
                 "name": "Marriott Courtyard",
                 "location": "Mumbai, India",
                 "total_seating_capacity": 110,
-                "available_seats": 67,
+                "available_tables": 11,
                 "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmyodeUPbdueI8ZanGBFpmOS_iNg8_qOcxXQ&s",
                 "booking_url": "/book/7",
                 "rating": 4.7
@@ -1570,7 +1572,7 @@
                 "name": "Hyatt Regency",
                 "location": "Kolkata, India",
                 "total_seating_capacity": 85,
-                "available_seats": 33,
+                "available_tables": 5,
                 "image_url": "https://media-cdn.tripadvisor.com/media/photo-m/1280/14/94/3a/a6/waterside-cafe.jpg",
                 "booking_url": "/book/8",
                 "rating": 4.8
@@ -1580,7 +1582,7 @@
                 "name": "ITC Grand Chola",
                 "location": "Chennai, India",
                 "total_seating_capacity": 150,
-                "available_seats": 90,
+                "available_tables": 15,
                 "image_url": "https://d4t7t8y8xqo0t.cloudfront.net/app//resized/818X450/restaurant/612375/restaurant020240511050552.png",
                 "booking_url": "/book/9",
                 "rating": 4.9
@@ -1590,7 +1592,7 @@
                 "name": "Fairfield by Marriott",
                 "location": "Ahmedabad, India",
                 "total_seating_capacity": 70,
-                "available_seats": 27,
+                "available_tables": 5,
                 "image_url": "https://images.unsplash.com/photo-1528605248644-14dd04022da1",
                 "booking_url": "/book/10",
                 "rating": 4.4
@@ -1610,11 +1612,11 @@
         const closeModal = document.getElementById('closeModal');
         const toast = document.getElementById('toast');
         const currentUser = document.getElementById('currentUser');
-        const selectedSeatsList = document.getElementById('selectedSeatsList');
-        const seatSelectionView = document.getElementById('seatSelectionView');
+        const selectedTablesList = document.getElementById('selectedTablesList');
+        const tableSelectionView = document.getElementById('tableSelectionView');
         const checkoutView = document.getElementById('checkoutView');
         const confirmBooking = document.getElementById('confirmBooking');
-        const backToSeats = document.getElementById('backToSeats');
+        const backToTables = document.getElementById('backToTables');
         const payNow = document.getElementById('payNow');
         
         // Admin stats elements
@@ -1626,27 +1628,44 @@
         // Modal elements
         const modalHotelName = document.getElementById('modalHotelName');
         const modalLocation = document.getElementById('modalLocation');
-        const modalAvailableSeats = document.getElementById('modalAvailableSeats');
+        const modalAvailableTables = document.getElementById('modalAvailableTables');
         const modalTotalCapacity = document.getElementById('modalTotalCapacity');
         
         // Checkout elements
-        const checkoutSeats = document.getElementById('checkoutSeats');
-        const checkoutSeatsPrice = document.getElementById('checkoutSeatsPrice');
-        const seatCount = document.getElementById('seatCount');
+        const checkoutTables = document.getElementById('checkoutTables');
+        const checkoutTablesPrice = document.getElementById('checkoutTablesPrice');
+        const tableCount = document.getElementById('tableCount');
         const subtotal = document.getElementById('subtotal');
         const platformFee = document.getElementById('platformFee');
         const totalAmount = document.getElementById('totalAmount');
         
-        // Current hotel and selected seats
-        let currentHotel = null;
-        let selectedSeats = [];
-        const seatPrice = 100; // Rs per seat
+        // Search elements
+        const userSearch = document.getElementById('userSearch');
+        const userSearchBtn = document.getElementById('userSearchBtn');
+        const adminSearch = document.getElementById('adminSearch');
+        const adminSearchBtn = document.getElementById('adminSearchBtn');
+        const userFilterBar = document.getElementById('userFilterBar');
+        const adminFilterBar = document.getElementById('adminFilterBar');
         
+        // Current hotel and selected tables
+        let currentHotel = null;
+        let selectedTables = [];
+        const tablePrice = 400; // Rs per table
+        
+        // Table to seat mapping
+        const tableSeatMap = {
+            "B": 18,
+            "T1": 4,
+            "T2": 4,
+            "T3": 4,
+            "T4": 4
+        };
+
         // Calculate admin stats
         function calculateStats() {
             const total = hotels.length;
             const totalSeatsCount = hotels.reduce((acc, hotel) => acc + hotel.total_seating_capacity, 0);
-            const availableSeatsCount = hotels.reduce((acc, hotel) => acc + hotel.available_seats, 0);
+            const availableSeatsCount = hotels.reduce((acc, hotel) => acc + (hotel.available_tables * 4), 0);
             const occupancy = ((totalSeatsCount - availableSeatsCount) / totalSeatsCount * 100).toFixed(1);
             
             totalHotels.textContent = total;
@@ -1664,18 +1683,33 @@
             }, 3000);
         }
         
+        // Filter hotels based on search term
+        function filterHotels(term) {
+            if (!term) return hotels;
+            return hotels.filter(hotel => 
+                hotel.name.toLowerCase().includes(term) || 
+                hotel.location.toLowerCase().includes(term)
+            );
+        }
+        
+        // Filter hotels by location
+        function filterByLocation(location) {
+            if (location === "all") return hotels;
+            return hotels.filter(hotel => hotel.location.includes(location));
+        }
+        
         // Render hotel cards
-        function renderHotels(container, isAdmin = false) {
+        function renderHotels(container, hotelsList, isAdmin = false) {
             container.innerHTML = '';
             
-            hotels.forEach(hotel => {
-                const occupancy = ((hotel.total_seating_capacity - hotel.available_seats) / hotel.total_seating_capacity * 100).toFixed(1);
+            hotelsList.forEach(hotel => {
+                const occupancy = ((hotel.total_seating_capacity - (hotel.available_tables * 4)) / hotel.total_seating_capacity * 100).toFixed(1);
                 
                 const card = document.createElement('div');
                 card.className = 'hotel-card';
                 card.innerHTML = `
                     <div class="hotel-image" style="background-image: url('${hotel.image_url}')">
-                        <div class="hotel-badge">${hotel.available_seats} seats available</div>
+                        <div class="hotel-badge">${hotel.available_tables} tables available</div>
                     </div>
                     <div class="hotel-content">
                         <h3 class="hotel-name">${hotel.name}</h3>
@@ -1715,15 +1749,22 @@
                     if (currentHotel) {
                         modalHotelName.textContent = currentHotel.name;
                         modalLocation.textContent = currentHotel.location;
-                        modalAvailableSeats.textContent = currentHotel.available_seats;
+                        modalAvailableTables.textContent = currentHotel.available_tables;
                         modalTotalCapacity.textContent = currentHotel.total_seating_capacity;
                         
-                        // Reset selected seats
-                        selectedSeats = [];
-                        updateSelectedSeatsList();
+                        // Reset selected tables
+                        selectedTables = [];
+                        updateSelectedTablesList();
                         
-                        // Show modal with seat selection view
-                        seatSelectionView.style.display = 'block';
+                        // Reset table selections in modal
+                        document.querySelectorAll('.table').forEach(table => {
+                            table.classList.remove('selected');
+                            const seats = table.closest('.table-group').querySelectorAll('.seat.available');
+                            seats.forEach(seat => seat.classList.remove('selected'));
+                        });
+                        
+                        // Show modal with table selection view
+                        tableSelectionView.style.display = 'block';
                         checkoutView.style.display = 'none';
                         bookingModal.style.display = 'flex';
                     }
@@ -1731,61 +1772,59 @@
             });
         }
         
-        // Toggle seat selection
-        function toggleSeatSelection() {
-            const seatId = this.dataset.seatId;
-            const index = selectedSeats.indexOf(seatId);
+        // Toggle table selection
+        function toggleTableSelection(tableElement) {
+            const tableId = tableElement.dataset.tableId;
+            const index = selectedTables.indexOf(tableId);
             
             if (index === -1) {
                 // Add to selection
-                selectedSeats.push(seatId);
-                this.classList.remove('available', 'premium', 'window');
-                this.classList.add('selected');
+                selectedTables.push(tableId);
+                tableElement.classList.add('selected');
+                
+                // Select all available seats at this table
+                const seats = tableElement.closest('.table-group').querySelectorAll('.seat.available');
+                seats.forEach(seat => seat.classList.add('selected'));
             } else {
                 // Remove from selection
-                selectedSeats.splice(index, 1);
-                this.classList.remove('selected');
+                selectedTables.splice(index, 1);
+                tableElement.classList.remove('selected');
                 
-                // Add back the original class
-                if (this.classList.contains('premium')) {
-                    this.classList.add('premium');
-                } else if (this.classList.contains('window')) {
-                    this.classList.add('window');
-                } else {
-                    this.classList.add('available');
-                }
+                // Deselect all seats at this table
+                const seats = tableElement.closest('.table-group').querySelectorAll('.seat.available');
+                seats.forEach(seat => seat.classList.remove('selected'));
             }
             
-            updateSelectedSeatsList();
+            updateSelectedTablesList();
         }
         
-        // Update selected seats list
-        function updateSelectedSeatsList() {
-            selectedSeatsList.innerHTML = '';
+        // Update selected tables list
+        function updateSelectedTablesList() {
+            selectedTablesList.innerHTML = '';
             
-            if (selectedSeats.length === 0) {
-                selectedSeatsList.innerHTML = '<p>No seats selected</p>';
+            if (selectedTables.length === 0) {
+                selectedTablesList.innerHTML = '<p>No tables selected</p>';
                 return;
             }
             
-            selectedSeats.forEach(seatId => {
-                const seatTag = document.createElement('div');
-                seatTag.className = 'seat-tag';
-                seatTag.textContent = `Seat ${seatId}`;
-                selectedSeatsList.appendChild(seatTag);
+            selectedTables.forEach(tableId => {
+                const tableTag = document.createElement('div');
+                tableTag.className = 'seat-tag';
+                tableTag.textContent = `Table ${tableId} (${tableSeatMap[tableId] || 4} seats)`;
+                selectedTablesList.appendChild(tableTag);
             });
         }
         
         // Update checkout summary
         function updateCheckoutSummary() {
-            const seatsCount = selectedSeats.length;
-            const subtotalValue = seatsCount * seatPrice;
+            const tablesCount = selectedTables.length;
+            const subtotalValue = tablesCount * tablePrice;
             const platformFeeValue = subtotalValue * 0.1;
             const totalValue = subtotalValue + platformFeeValue;
             
-            checkoutSeats.textContent = selectedSeats.join(', ');
-            checkoutSeatsPrice.textContent = `₹${seatPrice} × ${seatsCount}`;
-            seatCount.textContent = seatsCount;
+            checkoutTables.textContent = selectedTables.map(id => `Table ${id}`).join(', ');
+            checkoutTablesPrice.textContent = `₹${tablePrice} × ${tablesCount}`;
+            tableCount.textContent = tablesCount;
             subtotal.textContent = `₹${subtotalValue}`;
             platformFee.textContent = `₹${platformFeeValue.toFixed(2)}`;
             totalAmount.textContent = `₹${totalValue.toFixed(2)}`;
@@ -1804,11 +1843,11 @@
                 if (username === 'admin') {
                     adminDashboard.style.display = 'block';
                     calculateStats();
-                    renderHotels(adminHotelGrid, true);
+                    renderHotels(adminHotelGrid, hotels, true);
                 } else {
                     userDashboard.style.display = 'block';
                     currentUser.textContent = username;
-                    renderHotels(hotelGrid);
+                    renderHotels(hotelGrid, hotels);
                 }
             } else {
                 alert('Invalid username or password! Please use "user" or "admin" with password "password".');
@@ -1841,21 +1880,28 @@
             }
         });
         
+        // Table click event
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('table')) {
+                toggleTableSelection(e.target);
+            }
+        });
+        
         // Confirm booking (go to checkout)
         confirmBooking.addEventListener('click', function() {
-            if (selectedSeats.length === 0) {
-                alert('Please select at least one seat');
+            if (selectedTables.length === 0) {
+                alert('Please select at least one table');
                 return;
             }
             
             updateCheckoutSummary();
-            seatSelectionView.style.display = 'none';
+            tableSelectionView.style.display = 'none';
             checkoutView.style.display = 'block';
         });
         
-        // Back to seat selection
-        backToSeats.addEventListener('click', function() {
-            seatSelectionView.style.display = 'block';
+        // Back to table selection
+        backToTables.addEventListener('click', function() {
+            tableSelectionView.style.display = 'block';
             checkoutView.style.display = 'none';
         });
         
@@ -1869,53 +1915,65 @@
                 return;
             }
             
-            // Update available seats
-            currentHotel.available_seats -= selectedSeats.length;
+            // Update available tables
+            currentHotel.available_tables -= selectedTables.length;
             
             // Update UI
-            renderHotels(hotelGrid);
-            renderHotels(adminHotelGrid, true);
+            renderHotels(hotelGrid, hotels);
+            renderHotels(adminHotelGrid, hotels, true);
             calculateStats();
             
             // Show success message
-            showToast(`Successfully booked ${selectedSeats.length} seat(s) at ${currentHotel.name}!`);
+            showToast(`Successfully booked ${selectedTables.length} table(s) at ${currentHotel.name}!`);
             
             // Close modal
             bookingModal.style.display = 'none';
         });
         
-        // Add event listeners to seats
-        document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('seat') && 
-                !e.target.classList.contains('booked') &&
-                e.target.classList.contains('available')) {
-                toggleSeatSelection.call(e.target);
-            }
-        });
-        
         // Initialize filter buttons
         document.querySelectorAll('.filter-btn').forEach(button => {
             button.addEventListener('click', function() {
+                const filter = this.dataset.filter;
+                
                 document.querySelectorAll('.filter-btn').forEach(btn => {
                     btn.classList.remove('active');
                 });
                 this.classList.add('active');
                 
-                // In a real app, this would filter hotels by location
-                renderHotels(hotelGrid);
-                renderHotels(adminHotelGrid, true);
+                // Filter hotels by location
+                const filteredHotels = filterByLocation(filter);
+                
+                if (this.closest('#userFilterBar')) {
+                    renderHotels(hotelGrid, filteredHotels);
+                } else if (this.closest('#adminFilterBar')) {
+                    renderHotels(adminHotelGrid, filteredHotels, true);
+                }
             });
         });
         
         // Initialize search functionality
         userSearch.addEventListener('input', function() {
-            // In a real app, this would filter hotels by search term
-            renderHotels(hotelGrid);
+            const term = this.value.toLowerCase();
+            const filtered = filterHotels(term);
+            renderHotels(hotelGrid, filtered);
+        });
+        
+        userSearchBtn.addEventListener('click', function() {
+            const term = userSearch.value.toLowerCase();
+            const filtered = filterHotels(term);
+            renderHotels(hotelGrid, filtered);
         });
         
         adminSearch.addEventListener('input', function() {
-            // In a real app, this would filter hotels by search term
-            renderHotels(adminHotelGrid, true);
+            const term = this.value.toLowerCase();
+            const filtered = filterHotels(term);
+            renderHotels(adminHotelGrid, filtered, true);
+        });
+        
+        adminSearchBtn.addEventListener('click', function() {
+            const term = adminSearch.value.toLowerCase();
+            const filtered = filterHotels(term);
+            renderHotels(adminHotelGrid, filtered, true);
         });
         
         // Initialize the app
